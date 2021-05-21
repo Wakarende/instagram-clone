@@ -35,3 +35,24 @@ class Image(models.Model):
   def delete_image(self):
     self.delete()
 
+class Comments(models.Model):
+  comment=models.TextField()
+  pub_date=models.DateField(auto_now_add=True)
+  user=models.ForeignKey(User, on_delete=models.CASCADE)
+  image=models.ForeignKey(Image, on_delete=models.CASCADE, related_name="comments")
+  
+  def __str__(self):
+    return self.comment
+
+  def save_comment(self):
+    self.save()
+
+  def delete_comment(self):
+    self.delete()
+
+  @classmethod
+  def get_post_comments(cls,image):
+    return cls.objects.filter(image=image)
+
+  class Meta:
+    ordering=['-pub_date']
