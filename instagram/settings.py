@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "clone.apps.CloneConfig",
     "bootstrap5",
     "cloudinary",
+    "tinymce",
 ]
 
 cloudinary.config(
