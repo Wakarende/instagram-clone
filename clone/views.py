@@ -1,61 +1,75 @@
-from django.shortcuts import render,redirect
-from .models import Image,Profile
+from django.shortcuts import render, redirect
+from .models import Image, Profile, Comments, Follow
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, Http404
+from .forms import (
+    CreateProfileForm,
+    UploadImageForm,
+    EditBioForm,
+    FollowForm,
+    UnfollowForm,
+)
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url="/accounts/login/")
 def home(request):
-  title= "Instagram"
-  current_user =request.user
+  # title = "Instagram"
+  # current_user = request.user
+  # try:
+  #   logged_in = Profile.objects.get(user=current_user)
+  # except Profile.DoesNotExist:
+  #   raise Http404()
 
-  timeline_images = []
-  current_images = Image.objects.filter(profile = logged_in)
-  for current_image in current_images:
-    timeline_images.append(current_image.id)
-  
-  display_images= Image.objects.filter(pk__in = timeline_images).order_by('-post_date')
-  liked = False
-  for i in display_images:
-    image = Image.objects.get(pk=i.id)
-    liked = False
-    if image.likes.filter(id =request.user.id).exists():
-      liked = True
+  # timeline_images = []
+  # current_images = Image.objects.filter(profile=logged_in)
+  # for current_image in current_images:
+  #   timeline_images.append(current_image.id)
 
-  return render(request, 'home.html', {"images":display_images,"liked":liked, "comments":comments, "title":title, "loggedIn":logged_in} )
+  # display_images = Image.objects.filter(pk__in=timeline_images).order_by("-post_date")
+  # liked = False
+  # for i in display_images:
+  #   image = Image.objects.get(pk=i.id)
+  #   liked = False
+  # if image.likes.filter(id=request.user.id).exists():
+  #   liked = True
 
-@login_required(login_url='/accounts/login/')
+  return render( request, "home.html")
+
+@login_required(login_url="/accounts/login/")
 def upload_image(request):
-  title = "Instagram | Upload image"
+  title = "Upload image"
   current_user = request.user
-  try:
-    profile = Profile.objects.get(user = current_user)
-  except Profile.DoesNotExist:
-    raise Http404()
+  # try:
+  #   profile = Profile.objects.get(user=current_user)
+  # except Profile.DoesNotExist:
+  #   raise Http404()
   if request.method == "POST":
     form = UploadImageForm(request.POST, request.FILES)
-  if form.is_valid():
-    image = form.save(commit=False)
-    image.profile = profile
-    image.save()
-    return redirect('home')
+    if form.is_valid():
+      image = form.save(commit=False)
+      image.profile = profile
+      image.save()
+    return redirect("home")
   else:
     form = UploadImageForm()
-  return render(request, 'upload_image.html', {"form": form, "title": title})
+  return render(request, "upload_image.html", {"form": form, "title": title})
 
-# def create_profile(request):
-#   current_user = request.user
-#   if request.method == 'POST':
-#     form = CreateProfileForm(request.POST, request.FILES)
-#     if form.is_valid():
-#       profile = form.save(commit=False)
-#       profile.user = current_user
-#       profile.save()
-#         # return redirect(home)
-#     return HttpResponseRedirect('/')
 
-#   else:
-#     form = CreateProfileForm()
-#   return render(request, 'create-profile.html', {"form": form})
+def create_profile(request):
+  current_user = request.user
+  if request.method == 'POST':
+    form = CreateProfileForm(request.POST, request.FILES)
+    if form.is_valid():
+      profile = form.save(commit=False)
+      profile.user = current_user
+      profile.save()
+        # return redirect(home)
+    return HttpResponseRedirect('/')
 
+  else:
+    form = CreateProfileForm()
+  return render(request, 'create_profile.html', {"form": form})
 

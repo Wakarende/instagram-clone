@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(r"", include("clone.urls")),
+    path("", include("clone.urls")),
     path('accounts/register/', RegistrationView.as_view(success_url='/'),name='django_registration_register'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/')),
     path('accounts/',include('django.contrib.auth.urls')),
