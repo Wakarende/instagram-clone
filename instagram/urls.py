@@ -24,5 +24,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path(r"", include("clone.urls")),
     path('accounts/register/', RegistrationView.as_view(success_url='/'),name='django_registration_register'),
-    
+    path('logout/', auth_views.LogoutView.as_view(next_page='/')),
+    path('accounts/',include('django.contrib.auth.urls')),
+    path('login/', LoginView.as_view(), {"next_page": '/'}),
+    path('accounts/',include('django_registration.backends.one_step.urls')),
 ]
