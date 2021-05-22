@@ -192,16 +192,15 @@ def profile_edit(request):
 
 login_required(login_url='/accounts/login/')
 def search(request):
-  if 'user' in request.GET and request.GET['user']:
+  if "user" in request.GET and request.GET["user"]:
     searched_user= request.GET.get("user")
-    user = Profile.search_user(searched_user)
-    print(user)
+    search_results = Profile.search(searched_user)
+    print(search_results)
     message= f'searched_user'
     params = {
-      'user': user,
+      'search_results': search_results,
       'message': message
     }
     return render(request, 'result.html',params)
   else:
-    message="No profile with that name"
-  return render(request, 'results.html', {'message':message})
+    return render(request, 'results.html')
