@@ -35,7 +35,7 @@ class Image(models.Model):
   def delete_image(self):
     self.delete()
 
-class Comments(models.Model):
+class Comment(models.Model):
   comment=models.TextField()
   pub_date=models.DateField(auto_now_add=True)
   user=models.ForeignKey(User, on_delete=models.CASCADE)

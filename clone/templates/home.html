@@ -2,9 +2,11 @@
 {% load bootstrap4 %}
 {% load static %}
 {% block content %}
+
 {{ block.super }}
+
  <!-- START OF POSTS -->
- <div class="main row">
+<div class="main row">
     <div class="col-xs-12 col-md-1"></div>
     <div class="col-xs-12 col-md-6">
         {% if images %}
@@ -89,4 +91,5 @@
                 {% endfor %}
             </ul>
         </div>
+        <h1>is my css working</h1>
 {% endblock %}

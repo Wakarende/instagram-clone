@@ -1,43 +1,49 @@
 from django.shortcuts import render, redirect
-from .models import Image, Profile, Comments, Follow
+from .models import Image, Profile, Follow, Comment
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
-from .forms import (
-    CreateProfileForm,
-    UploadImageForm,
-    EditBioForm,
-    FollowForm,
-    UnfollowForm,
-)
+from .forms import (CreateProfileForm,UploadImageForm,EditBioForm,FollowForm,UnfollowForm)
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 # Create your views here.
 
 
 @login_required(login_url="/accounts/login/")
 def home(request):
-  # title = "Instagram"
-  # current_user = request.user
-  # try:
-  #   logged_in = Profile.objects.get(user=current_user)
-  # except Profile.DoesNotExist:
-  #   raise Http404()
+  title= "Instagram"
+  current_user =request.user
+  try:
+    logged_in = Profile.objects.get(user = current_user)
+  except Profile.DoesNotExist:
+    raise Http404()
 
-  # timeline_images = []
-  # current_images = Image.objects.filter(profile=logged_in)
-  # for current_image in current_images:
-  #   timeline_images.append(current_image.id)
+  timeline_images = []
+  current_images = Image.objects.filter(profile = logged_in)
+  for current_image in current_images:
+    timeline_images.append(current_image.id)
 
-  # display_images = Image.objects.filter(pk__in=timeline_images).order_by("-post_date")
-  # liked = False
-  # for i in display_images:
-  #   image = Image.objects.get(pk=i.id)
-  #   liked = False
-  # if image.likes.filter(id=request.user.id).exists():
-  #   liked = True
+  current_following = Follow.objects.filter(follower = logged_in)
+  for following in current_following:
+    following_profile = following.followed
+    following_images = Image.get_profile_images(following_profile)
+    for image in following_images:
+      timeline_images.append(image.id)
 
-  return render( request, "home.html")
+  display_images= Image.objects.filter(pk__in = timeline_images).order_by('-post_date')
+  liked = False
+  for i in display_images:
+    image = Image.objects.get(pk=i.id)
+    liked = False
+    if image.likes.filter(id =request.user.id).exists():
+      liked = True
+  comments = Comment.objects.all()[:3]
+  comments_count= comments.count()
 
+  suggestions = Profile.objects.all()[:4]
+  print("SUGGESTED")
+  print(suggestions[0])
+  return render(request, 'home.html', {"images":display_images,"liked":liked, "comments":comments, "title":title, "suggestions":suggestions, "loggedIn":logged_in})
+  
 @login_required(login_url="/accounts/login/")
 def upload_image(request):
   title = "Upload image"
@@ -73,22 +79,111 @@ def create_profile(request):
     form = CreateProfileForm()
   return render(request, 'create_profile.html', {"form": form})
 
-@login_required(login_url='login')
-def profile(request, username):
-  images = request.user.profile.posts.all()
+@login_required(login_url='/accounts/login/')
+def profile(request, profile_id):
+  title = "Profile"
+  current_user = request.user
+  try:
+    profile = Profile.objects.get(id =profile_id)
+  except Profile.DoesNotExist:
+    raise Http404()
+  try:
+    profile_following = Profile.objects.get(user = current_user)
+  except Profile.DoesNotExist:
+    raise Http404()
+  try:
+    profile_followed = Profile.objects.get(id = profile_id)
+  except Profile.DoesNotExist:
+    raise Http404()
+
   if request.method == 'POST':
-    user_form = UpdateUserForm(request.POST, instance=request.user)
-    prof_form = UpdateUserProfileForm(request.POST, request.FILES, instance=request.user.profile)
-  if user_form.is_valid() and prof_form.is_valid():
-    user_form.save()
-    prof_form.save()
-    return HttpResponseRedirect(request.path_info)
+    if 'follow' in request.POST:
+      form = FollowForm(request.POST)
+      if form.is_valid():
+        this_follow = form.save(commit=False)
+        this_follow.followed=profile_followed
+        this_follow.follower=profile_following
+        this_follow.save()
+        set_of_followers=Follow.objects.filter(followed = profile_followed)
+        num_of_followers=len(set_of_followers)
+        profile_followed.followers=num_of_followers
+        profile_followed.save()
+        set_of_following=Follow.objects.filter(follower = profile_following)
+        num_of_following=len(set_of_following)
+        profile_following.following=num_of_following
+        profile_following.save()
+      return HttpResponseRedirect(f'/profile/{profile_id}')
+        
+    elif 'unfollow' in request.POST:
+      form = UnfollowForm(request.POST)
+      if form.is_valid():
+        this_unfollow = form.save(commit=False)
+        is_unfollow = Follow.objects.filter(followed = profile_followed, follower = profile_following)
+        is_unfollow.delete()                
+        set_of_followers=Follow.objects.filter(followed = profile_followed)
+        num_of_followers=len(set_of_followers)
+        profile_followed.followers=num_of_followers
+        profile_followed.save()
+        set_of_following=Follow.objects.filter(follower = profile_following)
+        num_of_following=len(set_of_following)
+        profile_following.following=num_of_following
+        profile_following.save()
+      return HttpResponseRedirect(f'/profile/{profile_id}')
   else:
-    user_form = UpdateUserForm(instance=request.user)
-    prof_form = UpdateUserProfileForm(instance=request.user.profile)
-  params = {
-    'user_form': user_form,
-    'prof_form': prof_form,
-    'images': images,
-  }
-  return render(request, 'profile/profile.html', params)
+    form_follow = FollowForm()
+    form_unfollow = UnfollowForm()
+    
+  images = Image.objects.filter(profile = profile).order_by('-post_date')
+  images = Image.get_profile_images(profile = profile)
+  images = Image.objects.filter(profile = profile).order_by('-post_date')
+  posts = images.count()  
+
+  is_following = Follow.objects.filter(followed = profile_followed, follower = profile_following) 
+  comments = Comment.objects.order_by('-post_date')   
+
+  if is_following:
+    return render(request, 'profile/profile.html', {"profile": profile, "images": images, "comments":comments, "unfollow_form": form_unfollow, "posts": posts, "title": title})
+
+  return render(request, 'profile/profile.html', {"profile": profile, "images": images, "comments":comments, "follow_form": form_follow, "posts": posts, "title": title})
+
+def comment(request, image_id):
+  image = Image.objects.get(pk=image_id)
+  content= request.GET.get("comment")
+  print(content)
+  user = request.user
+  comment = Comment( image = image, content = content, user = user)
+  comment.save_comment()
+
+  return redirect('home')
+
+def like_image(request,image_id):
+  image = Image.objects.get(pk=image_id)
+  liked = False
+  current_user = request.user
+  try:
+    profile = Profile.objects.get(user = current_user)
+  except Profile.DoesNotExist:
+    raise Http404()
+  if image.likes.filter(id=profile.id).exists():
+    image.likes.remove(profile)
+    liked = False
+  else:
+    image.likes.add(profile)
+    liked = True
+  return HttpResponseRedirect(reverse('home'))
+
+def profile_edit(request):
+  current_user = request.user
+  if request.method == "POST":
+    form = EditBioForm(request.POST, request.FILES)
+    if form.is_valid():
+      profile_pic = form.cleaned_data['profile_pic']
+      bio  = form.cleaned_data['bio']
+      updated_profile = Profile.objects.get(user= current_user)
+      updated_profile.profile_pic = profile_pic
+      updated_profile.bio = bio
+      updated_profile.save()
+    return redirect('profile')
+  else:
+    form = EditBioForm()
+  return render(request, 'edit_profile.html', {"form": form})

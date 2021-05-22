@@ -1,4 +1,4 @@
-from .models import Image, Profile, Comments, Follow
+from .models import Image, Profile, Follow, Comment
 from django.forms import ModelForm
 
 
