@@ -189,3 +189,19 @@ def profile_edit(request):
   else:
     form = EditBioForm()
   return render(request, 'edit_profile.html', {"form": form})
+
+login_required(login_url='/accounts/login/')
+def search(request):
+  if 'user' in request.GET and request.GET['user']:
+    searched_user= request.GET.get("user")
+    user = Profile.search_user(searched_user)
+    print(user)
+    message= f'searched_user'
+    params = {
+      'user': user,
+      'message': message
+    }
+    return render(request, 'result.html',params)
+  else:
+    message="No profile with that name"
+  return render(request, 'results.html', {'message':message})

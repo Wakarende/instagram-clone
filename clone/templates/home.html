@@ -33,11 +33,11 @@
         </div>
       </div>
       <div class="card-footer" style="padding: 0;">
-        <form role="add_comment" , action="{% url 'comment' image_id=image.id %}">
-           {% csrf_token%} 
-           <div class="input-group">
+        <form role="add_comment" , action="{% url 'comment' image_id=image.id %}"> {% csrf_token%} <div
+            class="input-group">
             <i class="far fa-smile text-muted"></i>
-            <input type="text" class="form-control" placeholder="Add a comment" name="comment" style="font-size: 1.2rem; border: 0;">
+            <input type="text" class="form-control" placeholder="Add a comment" name="comment"
+              style="font-size: 1.2rem; border: 0;">
             <div class="input-group-btn">
               <button class="btn" type="submit" style="font-size: 1.2rem;"> Post</button>
             </div>
@@ -48,8 +48,8 @@
       <h2>Nothing to see</h2>
       <h2>Get started on Instagram by following an Instagram user or share an image to see images on the timeline. </h2>
     </div> {% endif %} </div>
-  <!-- END OF POSTS  -->
-  <!-- SIDEBAR  -->
+<!-- END OF POSTS  -->
+<!-- SIDEBAR  -->
   <div class="col-xs-12 col-md-1"></div>
   <div class="col-xs-12 col-md-3">
     <div class="card">
@@ -63,10 +63,12 @@
             <a href="/profile/{{prof.id}}" class="profile_tag">{{prof.user.username}}</a>
           </div>
         </li> {% endif %} {% endfor %} </ul>
-    </div> 
+    </div>
+  </div>
+</div>
 <!-- END SIDEBAR  -->
 <!-- FOOTER  -->
-<footer class="mastfoot mt-auto">
+<footer class="mastfoot mt-5">
   <div class="inner">
     <ul class="footer-flex">
       <li class="text-muted">About</li>
@@ -82,6 +84,4 @@
     </ul>
     <p class="text-center text-muted mb-5">&copy;2021 Instragam from Joy</p>
   </div>
-</footer>
-    {% endblock %}
-   
+</footer> {% endblock %}
