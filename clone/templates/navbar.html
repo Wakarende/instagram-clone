@@ -44,7 +44,7 @@
       <span class="navbar-brand mb-0 h1">
         <a href="{% url 'home' %}"><img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"
-            alt="logo" width="103"></a>
+            alt="logo" width="103" class="logo"></a>
       </span>
       <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="">
         <input name="search_user" autocomplete="off" id="searching" class="form-control d-none d-md-block"
@@ -71,16 +71,19 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body text-left">
-          <ul>
-            <li><a href="/profile/{{request.user.id}}">Profile</a></li>
-            <li><a href="/upload/image">Upload Image</a></li>
-            <li><a href="/logout">Logout</a></li>
+        <div class="modal-body text-left ">
+          <ul class="modal-text">
+            <li ><a href="/profile/{{request.user.id}}" class="text-modal">Profile</a></li>
+            <li><a href="/upload/image" class="text-modal">Upload Image</a></li>
+            <li><a href="/logout" class="text-modal">Logout</a></li>
           </ul>
         </div>
       </div>
     </div>
   </div>
+  <br>
+  <br>
+  <br>
   <br>
   <br>
   <br>

@@ -1,2 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* NAVBAR  */
+.logo {
+  width: 103px;
+  margin-bottom: 29px;
+}
+
+/* END NAVBAR  */
+/* IMAGE DISPLAY HOMEPAGE  */
+.picture {
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+}
+
+body {
+  background-color: #fafafa;
+  font-size: 14px;
+}
+
+.profile_tag {
+  color: black;
+  margin-left: 2rem;
+}
+
+.home-card {
+  width: 614px;
+  height: 700px;
+}
+
+.card-body {
+  background-color: white;
+}
+
+.modal-text {
+  list-style: none;
+
+}
+
+.text-modal {
+  color: black;
+  text-decoration: none;
+}
+
+.fa-smile {
+  font-size: 22px;
+}
+
+/* END OF HOMEPAGE  */
 
 
+/* PROFILE  */
+.d-flex {
+  display: flex;
+}
+
+/* END OF PROFILE  */
+/* FOOTER  */
+.footer-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
+  column-gap: 1rem;
+  list-style: none;
+}
+
+/* END OF FOOTER  */

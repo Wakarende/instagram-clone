@@ -2,21 +2,36 @@ from django.shortcuts import render, redirect
 from .models import Image, Profile, Follow, Comment
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
-from .forms import (CreateProfileForm,UploadImageForm,EditBioForm,FollowForm,UnfollowForm)
+from .forms import CreateProfileForm,UploadImageForm,EditBioForm,FollowForm,UnfollowForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 # Create your views here.
 
+@login_required(login_url="/accounts/login/")
+def create_profile(request):
+  current_user = request.user
+  if request.method == 'POST':
+    form = CreateProfileForm(request.POST, request.FILES)
+    if form.is_valid():
+      profile = form.save(commit=False)
+      profile.user = current_user
+      profile.save()
+
+    return HttpResponseRedirect('/')
+
+  else:
+    form = CreateProfileForm()
+  return render(request, 'create_profile.html', {"form": form})
 
 @login_required(login_url="/accounts/login/")
 def home(request):
-  title= "Instagram"
   current_user =request.user
   try:
     logged_in = Profile.objects.get(user = current_user)
   except Profile.DoesNotExist:
     raise Http404()
 
+  logged_in = Profile.objects.get(user = current_user)
   timeline_images = []
   current_images = Image.objects.filter(profile = logged_in)
   for current_image in current_images:
@@ -29,29 +44,29 @@ def home(request):
     for image in following_images:
       timeline_images.append(image.id)
 
-  display_images= Image.objects.filter(pk__in = timeline_images).order_by('-post_date')
-  liked = False
-  for i in display_images:
-    image = Image.objects.get(pk=i.id)
-    liked = False
-    if image.likes.filter(id =request.user.id).exists():
-      liked = True
-  comments = Comment.objects.all()[:3]
-  comments_count= comments.count()
+  display_images= Image.objects.filter(id =request.user.id).order_by('-post_date')
+  # liked = False
+  # for i in display_images:
+  #   image = Image.objects.get(pk=i.id)
+  #   liked = False
+  #   if image.likes.filter(pk__in=timeline_images).exists():
+  #     liked = True
+  # comments = Comment.objects.all()[:3]
+  # comments_count= comments.count()
 
   suggestions = Profile.objects.all()[:4]
-  print("SUGGESTED")
-  print(suggestions[0])
-  return render(request, 'home.html', {"images":display_images,"liked":liked, "comments":comments, "title":title, "suggestions":suggestions, "loggedIn":logged_in})
+  
+
+  return render(request, 'home.html',{"images":display_images,"suggestions":suggestions, "loggedIn":logged_in})
   
 @login_required(login_url="/accounts/login/")
 def upload_image(request):
   title = "Upload image"
   current_user = request.user
-  # try:
-  #   profile = Profile.objects.get(user=current_user)
-  # except Profile.DoesNotExist:
-  #   raise Http404()
+  try:
+    profile = Profile.objects.get(user=current_user)
+  except Profile.DoesNotExist:
+    raise Http404()
   if request.method == "POST":
     form = UploadImageForm(request.POST, request.FILES)
     if form.is_valid():
@@ -64,20 +79,7 @@ def upload_image(request):
   return render(request, "upload_image.html", {"form": form, "title": title})
 
 
-def create_profile(request):
-  current_user = request.user
-  if request.method == 'POST':
-    form = CreateProfileForm(request.POST, request.FILES)
-    if form.is_valid():
-      profile = form.save(commit=False)
-      profile.user = current_user
-      profile.save()
-        # return redirect(home)
-    return HttpResponseRedirect('/')
 
-  else:
-    form = CreateProfileForm()
-  return render(request, 'create_profile.html', {"form": form})
 
 @login_required(login_url='/accounts/login/')
 def profile(request, profile_id):
@@ -139,7 +141,7 @@ def profile(request, profile_id):
   posts = images.count()  
 
   is_following = Follow.objects.filter(followed = profile_followed, follower = profile_following) 
-  comments = Comment.objects.order_by('-post_date')   
+  comments = Comment.objects.order_by('-pub_date')   
 
   if is_following:
     return render(request, 'profile/profile.html', {"profile": profile, "images": images, "comments":comments, "unfollow_form": form_unfollow, "posts": posts, "title": title})
