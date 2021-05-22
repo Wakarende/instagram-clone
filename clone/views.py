@@ -204,3 +204,12 @@ def search(request):
     return render(request, 'result.html',params)
   else:
     return render(request, 'results.html')
+
+
+@login_required(login_url='/accounts/login/')
+def email(request):
+  current_user = request.user
+  email = current_user.email
+  name = current_user.username
+  send_signup_email(name, email)
+  return redirect(create_profile)

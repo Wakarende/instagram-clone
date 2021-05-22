@@ -1,4 +1,4 @@
-{%extends "registration/base.html"%} {% load bootstrap5 %}
+{%extends "registration/base.html"%} {% load bootstrap4 %}
 {% block content %}
 <div class="container">
   <div class="row">
@@ -22,7 +22,7 @@
               <input type="submit" class="btn btn-primary btn-sm" value="Sign Up">
             </div>
 
-            <input type="hidden" name="next" value="{{next}}">
+            <input type="hidden" name="next" value="{% url 'create_profile' %}">
 
           </form>
 
