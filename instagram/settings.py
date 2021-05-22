@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "clone.apps.CloneConfig",
-    "bootstrap5",
+    "bootstrap4",
     "cloudinary",
     "tinymce",
 ]
