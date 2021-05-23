@@ -29,14 +29,16 @@ body {
   font-size: 14px;
 }
 
-.suggestion-text{
+.suggestion-text {
   font-size: 14px;
   color: black;
   font-weight: bold;
 }
-.suggestion-text:hover{
+
+.suggestion-text:hover {
   color: black;
 }
+
 /* .profile_tag {
   color: black;
   margin-left: 2rem;
@@ -79,7 +81,24 @@ body {
 .footer-text {
   font-size: 10px;
 }
-.copy{
+
+.copy {
   font-size: 10px;
 }
+
 /* END OF FOOTER  */
+
+/* IMAGE UPLOAD  */
+.card {
+  padding: 20px;
+}
+
+.header img {
+  height: 50px;
+  width: 175px;
+  margin: auto;
+  position: relative;
+  /* left: 40px; */
+}
+
+/* END OF IMAGE UPLOAD  */

@@ -1,6 +1,8 @@
 /* Login  */
-body{
-  background-color: #fafafa;}
+body {
+  background-color: #fafafa;
+}
+
 /* FOOTER  */
 .footer-flex {
   display: flex;
@@ -11,7 +13,8 @@ body{
   margin-top: 40px;
   font-size: small;
 }
-.copy{
+
+.copy {
   font-size: small;
 }
 
@@ -62,3 +65,18 @@ body{
   letter-spacing: -2px;
   font-weight: normal;
 }
+
+/* REGISTRATION  */
+.card-img {
+  height: 50px;
+  width: 175px;
+  margin: auto;
+  position: relative;
+  left: 50px;
+}
+
+.card {
+  padding: 20px;
+}
+
+/* CREATE PROFILE  */
