@@ -73,7 +73,7 @@ class Comment(models.Model):
 
 
 class Follow(models.Model): 
-  posted = models.DateTimeField(auto_now_add=True)
+  # posted = models.DateTimeField(auto_now_add=True)
   followed = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile_followed')
   follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile_following')
 
