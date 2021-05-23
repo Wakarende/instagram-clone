@@ -1,21 +1,26 @@
-{%extends "registration/base.html"%} {% load bootstrap4 %} {% block content %} 
-<div class="container">
+{%extends "registration/base.html"%} {% load bootstrap4 %} {% load static %}{% block content %} <div class="container">
   <div class="row">
     <!-- Empty div -->
     <div class="col-md-4"></div>
-    <div class="col-md-4"> {% if form.errors %} <p> Password or Username is incorrect </p> {% endif %} <div
-        class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="text-center">Sign In</h3>
-        </div>
-        <div class="panel-body">
-          <form action="/accounts/login/" method="post"> {% csrf_token %} {% bootstrap_form form%} <div
-              class="form-group">
-              <input type="submit" class="btn btn-primary btn-sm" value="Login">
-            </div>
-            <input type="hidden" name="next" value="{% url 'create_profile' %}">
-          </form>
-          <div class="sign-up"> Don't have an account? <a href="/accounts/register/" class="ml-2">Sign Up</a>
+    <div class="col-md-4" id="wrapper"> {% if form.errors %} <p> Password or Username is incorrect </p> {% endif %}
+      <div >
+        <div class="panel panel-default main-content">
+          <div class="panel-heading header">
+            <img
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"
+               alt="Instagram-logo">
+          </div>
+          <div class="panel-body">
+            <form action="/accounts/login/" method="post"> {% csrf_token %} {% bootstrap_form form%} <div
+                 class="form-group">
+                <input type="submit" class="btn btn-primary btn-sm" value="Login">
+              </div>
+               <input type="hidden" name="next" value="{% url 'create_profile' %}">
+            </form>
+          </div>
+          <div class="sign-up sub-content"> Don't have an account? <div class="s-part">
+              <a href="/accounts/register/" class="ml-2">Sign Up</a>
+             </div>
           </div>
         </div>
       </div>
@@ -23,7 +28,7 @@
     <!-- empty div -->
     <div class="col-md-4"></div>
   </div>
-</div> 
+</div>
 <!-- FOOTER  -->
 <footer class="mastfoot mt-auto">
   <div class="inner">
@@ -39,7 +44,6 @@
       <li class="text-muted">Hashtags</li>
       <li class="text-muted">Locations</li>
     </ul>
-    <p class="text-center text-muted mb-5">&copy;2021 Instragam from Joy</p>
+    <p class="text-center text-muted mb-5 copy">&copy;2021 Instragam from Joy</p>
   </div>
-</footer>
-{% endblock %}
+</footer> {% endblock %}
