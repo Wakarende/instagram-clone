@@ -43,3 +43,39 @@ class TestComment(TestCase):
 
   def test_instance(self):
     self.assertTrue(isinstance(self.comment, Comment))
+
+  def test_save_comment(self):
+    comments=Comment.objects.all()
+    self.assertTrue(len(comments)>0)
+
+  def test_delete_comment(self):
+    comments=Comment.objects.all()
+    self.assertEqual(len(comments), 1)
+    self.comment.delete_comment()
+    comments1= Comment.objects.all()
+    self.assertEqual(len(comments1),0)
+  
+  # def test_get_post_comments(self):
+  #   comments=Comment.get_post_comments(self.image)
+  #   self.assertEqual(comments[0].content, 'Test Comment')
+  #   self.assertTrue(len(comments)>0) 
+
+class TestIMage(TestCase):
+  def setUp(self):
+    self.user= User(username='joy')
+    self.profile=Profile(bio='Test bio', user=self.user)
+    self.image=Image(name='test' ,image='defualt.png', caption='caption',profile=self.profile)
+    image2=Image(name='test2', image='image.png', caption='caption2', profile=self.profile)
+
+    self.user.save()
+    self.profile.save()
+    self.image.save_image()
+
+  def tearDown(self):
+    Image.objects.all().delete()
+  
+  def test_instance(self):
+    self.assertTrue(isinstance(self.image, Image))
+
+
+
