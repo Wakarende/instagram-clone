@@ -50,7 +50,7 @@ class Image(models.Model):
     ordering = ['-post_date']
 
 class Comment(models.Model):
-  comment=models.TextField()
+  content=models.TextField()
   pub_date=models.DateField(auto_now_add=True)
   user=models.ForeignKey(User, on_delete=models.CASCADE)
   image=models.ForeignKey(Image, on_delete=models.CASCADE, related_name="comments")

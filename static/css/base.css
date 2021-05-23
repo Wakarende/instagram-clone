@@ -29,32 +29,32 @@ body {
   font-size: 14px;
 }
 
-.profile_tag {
+.suggestion-text{
+  font-size: 14px;
+  color: black;
+  font-weight: bold;
+}
+.suggestion-text:hover{
+  color: black;
+}
+/* .profile_tag {
   color: black;
   margin-left: 2rem;
-}
+} */
 
-.home-card {
-  width: 614px;
-  height: 700px;
-}
 
-.card-body {
+/* .card-body {
   background-color: white;
-}
+} */
 
-.modal-text {
+/* .modal-text {
   list-style: none;
 
-}
+} */
 
 .text-modal {
   color: black;
   text-decoration: none;
-}
-
-.fa-smile {
-  font-size: 22px;
 }
 
 /* END OF HOMEPAGE  */
@@ -72,8 +72,14 @@ body {
   align-items: center;
   justify-content: center;
   margin-top: 5rem;
-  column-gap: 1rem;
+  column-gap: 5px;
   list-style: none;
 }
 
+.footer-text {
+  font-size: 10px;
+}
+.copy{
+  font-size: 10px;
+}
 /* END OF FOOTER  */
