@@ -220,3 +220,10 @@ def follow(request, to_follow):
     follow_s = Follow(profile_follower=request.user.profile, profile_followed=user_profile3)
     follow_s.save()
   return redirect('user_profile', user_profile3.user.username)
+
+def unfollow(request, to_unfollow):
+  if request.method == 'GET':
+    user_profile2 = Profile.objects.get(pk=to_unfollow)
+    unfollow_d = Follow.objects.filter(profile_follower=request.user.profile, profile_followed=user_profile2)
+    unfollow_d.delete()
+  return redirect('user_profile', user_profile2.user.username)
