@@ -21,21 +21,21 @@
             value={{image.id}} style="border: 0px; background-color: transparent; margin-bottom: 1rem;"><i
               class="far fa-heart"></i></button>
         </form>
-        <div class="liked-count bg-white">{{image.likes.count}} likes</div>
+        <div class="liked-count bg-white mb-5">{{image.likes.count}} likes</div>
         <div class="post bg-white">
           <a href="#" class="likes">{{image.profile}}</a>
           <span class="post-link bg-white">{{image.caption}}</span>
           <div class="text-muted bg-white" style="font-size: 1.4rem;margin-top: 1%;">Comments...</div>
-          {% for comment in comments %} {% if comment.image.id == image.id %} <div>
+          <!-- {% for comment in comments %} {% if comment.image.id == image.id %} <div>
             <a href="#" class="likes"><em style="font-size: 1.2rem;">{{comment.user}}</em></a>
             <span class="post-link"><em style="font-size: 1.2rem;">{{comment.content}}</em></span>
-          </div> {% endif %} {% endfor %} <div class="text-muted">{{image.post_date | timesince }} ago</div>
+          </div> {% endif %} {% endfor %}  -->
+          <div class="text-muted">{{image.post_date | timesince }} ago</div>
         </div>
       </div>
-      <div class="card-footer" style="padding: 0;">
+      <!-- <div class="card-footer" style="padding: 0;">
         <form role="add_comment" , action="{% url 'comment' image_id=image.id %}"> {% csrf_token%} <div
             class="input-group">
-            <i class="far fa-smile text-muted"></i>
             <input type="text" class="form-control" placeholder="Add a comment" name="comment"
               style="font-size: 1.2rem; border: 0;">
             <div class="input-group-btn">
@@ -43,13 +43,13 @@
             </div>
           </div>
         </form>
-      </div>
+      </div> -->
     </div> {% endfor %} {% else %} <div class="nothing text-center">
       <h2>Nothing to see</h2>
       <h2>Get started on Instagram by following an Instagram user or share an image to see images on the timeline. </h2>
     </div> {% endif %} </div>
-<!-- END OF POSTS  -->
-<!-- SIDEBAR  -->
+  <!-- END OF POSTS  -->
+  <!-- SIDEBAR  -->
   <div class="col-xs-12 col-md-1"></div>
   <div class="col-xs-12 col-md-3">
     <div class="card">

@@ -45,19 +45,19 @@ def home(request):
       timeline_images.append(image.id)
 
   display_images= Image.objects.filter(id =request.user.id).order_by('-post_date')
-  # liked = False
-  # for i in display_images:
-  #   image = Image.objects.get(pk=i.id)
-  #   liked = False
-  #   if image.likes.filter(pk__in=timeline_images).exists():
-  #     liked = True
+  liked = False
+  for i in display_images:
+    image = Image.objects.get(pk=i.id)
+    liked = False
+    if image.likes.filter(pk__in=timeline_images).exists():
+      liked = True
   # comments = Comment.objects.all()[:3]
   # comments_count= comments.count()
 
   suggestions = Profile.objects.all()[:4]
   
 
-  return render(request, 'home.html',{"images":display_images,"suggestions":suggestions, "loggedIn":logged_in})
+  return render(request, 'home.html',{"images":display_images,"suggestions":suggestions, "loggedIn":logged_in, "liked":liked})
   
 @login_required(login_url="/accounts/login/")
 def upload_image(request):
@@ -229,3 +229,13 @@ def like_image(request,image_id):
     image.likes.add(profile)
     liked = True
   return HttpResponseRedirect(reverse('home'))
+
+def comment(request, image_id):
+  image = Image.objects.get(pk=image_id)
+  content= request.GET.get("comment")
+  print(content)
+  user = request.user
+  comment = Comment( image = image, content = content, user = user)
+  comment.save_comment()
+
+  return redirect('home')
