@@ -12,4 +12,6 @@ urlpatterns=[
   path('comment/(?P<image_id>\d+)', views.comment,name = "comment"),
   path('profile/edit', views.profile_edit,name = 'profile_edit'),
   path('search/', views.search, name='search'),
+  path('unfollow/<to_unfollow>', views.unfollow, name='unfollow'),
+  path('follow/<to_follow>', views.follow, name='follow')
 ]
