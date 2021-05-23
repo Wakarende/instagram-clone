@@ -213,3 +213,10 @@ def email(request):
   name = current_user.username
   send_signup_email(name, email)
   return redirect(create_profile)
+
+def follow(request, to_follow):
+  if request.method == 'GET':
+    user_profile3 = Profile.objects.get(pk=to_follow)
+    follow_s = Follow(profile_follower=request.user.profile, profile_followed=user_profile3)
+    follow_s.save()
+  return redirect('user_profile', user_profile3.user.username)
