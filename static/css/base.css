@@ -49,14 +49,30 @@ body {
   background-color: white;
 } */
 
-/* .modal-text {
+ .modal-text {
   list-style: none;
 
-} */
+} 
 
 .text-modal {
   color: black;
   text-decoration: none;
+}
+.card-dimensions{
+  height: auto;
+  margin-bottom: 40px;
+}
+.profile_tag{
+  color: black;
+  font-weight: bold;
+}
+.profile_tag:hover{
+  color: black;
+}
+
+.fa-heart{
+  font-size: 35px;
+  font-weight: lighter;
 }
 
 /* END OF HOMEPAGE  */
@@ -98,7 +114,15 @@ body {
   width: 175px;
   margin: auto;
   position: relative;
-  /* left: 40px; */
 }
 
 /* END OF IMAGE UPLOAD  */
+
+/* SEARCH  */
+.search-flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* END OF SEARCH  */

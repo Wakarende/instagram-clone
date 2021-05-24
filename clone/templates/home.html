@@ -1,18 +1,20 @@
-{% extends 'base.html' %} {% load bootstrap4 %} {% load static %} {% block content %} {{ block.super }} 
-<div class="mt-4">
+{% extends 'base.html' %} {% load bootstrap4 %} {% load static %} {% block content %} {{ block.super }} <div
+  class="mt-4">
   <div class="container d-flex justify-content-center">
     <div class="col-9">
       <div class="row">
         <div class="col-8">
           <!-- START OF POSTS -->
-          <div class="d-flex flex-column mt-4 mb-4"> 
-            {% if timeline %} {% for image in timeline %}
-            <div class="card">
-              <div class="card-header p-3">
+          <div class="d-flex flex-column mt-4 mb-4"> {% if timeline %} {% for image in timeline %} <div
+              class="card card-dimensions">
+              <div class="card-header p-3  bg-white">
                 <div class="d-flex flex-row align-items-center">
-                  <div class="rounded-circle overflow-hidden d-flex justify-content-center align-items-center border border-danger post-profile-photo mr-3">
+                  <div
+                    class="rounded-circle overflow-hidden d-flex justify-content-center align-items-center border border-danger post-profile-photo mr-3">
                     <a href="/profile/{{image.profile.id}}">
-                      <img src="{{image.profile.profile_pic.url}}" alt="..." style="transform: scale(1.5); width: 32px;  height: 32px; position:relative; left: 0;" class="rounded-cirlce">
+                      <img src="{{image.profile.profile_pic.url}}" alt="..."
+                        style="transform: scale(1.5); width: 32px;  height: 32px; position:relative; left: 0;"
+                        class="rounded-cirlce">
                     </a>
                   </div>
                   <div class="profile">
@@ -20,17 +22,17 @@
                   </div>
                 </div>
               </div>
-              <div class="card-body p-0">
+              <div class="card-body p-0 bg-none">
                 <div class="embed-responsive embed-responsive-1by1 x">
-                  <img class="embed-responsive-item " src="{{image.image.url}}" />
+                  <img class="embed-responsive-item " src="{{image.image.url}}"/>
                 </div>
                 <div class="d-flex flex-row justify-content-between pl-3 pr-3 pt-3 pb-1">
                   <ul class="list-inline d-flex flex-row align-items-center m-0">
                     <li class="list-inline-item">
                       <form action="{% url 'like_image' image_id=image.id %}"> {% csrf_token %} <button type="submit"
-                            name="image_id" value={{image.id}}
-                            style="border: 0px; background-color: transparent; margin-bottom: 1rem;"><i
-                              class="far fa-heart"></i>
+                          name="image_id" value={{image.id}}
+                          style="border: 0px; background-color: transparent; margin-bottom: 1rem;"><i
+                            class="far fa-heart"></i>
                         </button>
                       </form>
                       <div class="liked-count bg-white">{{image.likes.count}} likes</div>
@@ -39,89 +41,84 @@
                 </div>
                 <div class="pl-3 pr-3 pb-2">
                   <div class="post">
-                    <a href="#" class="likes">{{image.profile}}</a>
-                    <span class="post-link bg-white">{{image.caption}}</span>
-                      <div class="text-muted bg-white" style="font-size: 1.4rem;margin-top: 1%;"></div>
-                        {% for comment in comments %} {% if comment.image.id == image.id %} 
-                      <div>
-                        <a href="#" class="likes"><small style="font-size: 1.2rem;">{{comment.user}}</small></a>
-                        <span class="post-link"><small style="font-size: 1.2rem;">{{comment.content}}</small></span>
-                      </div> {% endif %} {% endfor %} 
-                      <div class="text-muted">
-                        {{image.post_date | timesince }} ago
-                      </div>
+                    <a href="#" class="">
+                      <span class="post-link bg-white profile_tag">{{image.profile}}</span>
+                    </a>
+                    <span class="bg-white text-muted">{{image.caption}}</span>
+                    <div class="text-muted bg-white" style="font-size: 1.4rem;margin-top: 1%;"></div>
+                    {% for comment in comments %} {% if comment.image.id == image.id %} <div>
+                      <a href="#" class="likes "><small class="profile_tag">{{comment.user}}</small></a>
+                      <span class="post-link"><small class="text-muted">{{comment.content}}</small></span>
+                    </div> {% endif %} {% endfor %} <div class="text-muted"> {{image.post_date | timesince }} ago </div>
                   </div>
                 </div>
-                </div>
-                <hr>
-                <div class="position-relative comment-box">
-                  <form role="add_comment" , action="{% url 'comment' image_id=image.id %}"> {% csrf_token%} <div
-                      class="input-group">
-                      <input type="text" class="form-control" placeholder="Add a comment" name="comment"
-                        style="font-size: 1.2rem; border: 0;">
-                      <div class="input-group-btn">
-                        <button class="btn" type="submit" style="font-size: 1.2rem;"> Post</button>
-                      </div>
+              </div>
+              <hr>
+              <div class="position-relative comment-box">
+                <form role="add_comment" , action="{% url 'comment' image_id=image.id %}"> {% csrf_token%} <div
+                    class="input-group">
+                    <input type="text" class="form-control" placeholder="Add a comment" name="comment"
+                      style="font-size: 1.2rem; border: 0;">
+                    <div class="input-group-btn">
+                      <button class="btn" type="submit" style="font-size: 1.2rem;"> Post</button>
                     </div>
-                  </form>
-                </div> 
+                  </div>
+                </form>
               </div>
             </div>
-            {% endfor %}
-            {% else %} 
-            <div class="nothing text-center">
-              <h2>Follow an Instagram user or share an image to see images on the timeline.</h2>
-            </div> 
-            {% endif %}
-          </div>  
+          </div> {% endfor %} {% else %} <div class="nothing text-center">
+            <h2>Follow an Instagram user or share an image to see images on the timeline.</h2>
+          </div> {% endif %}
         </div>
-          <!-- END OF POSTS -->
-          <!-- SIDEBAR  -->
-          <div class="col-4">
-            <div class="d-flex flex-row align-items-center">
-            </div>
-            <div class="mt-4 ml-5">
-              <div class="d-flex flex-row justify-content-between">
-                <small class="text-muted font-weight-normal">Suggestions For You</small>
-              </div> {% for prof in suggestions %} {% if prof == loggedIn%} {% else %} <div>
-                <div class="d-flex flex-row justify-content-between align-items-center mt-3 mb-3">
-                  <div class="d-flex flex-row align-items-center">
-                    <div
-                      class="rounded-circle overflow-hidden d-flex justify-content-center align-items-center border sugest-profile-photo">
-                      <a href="/profile/{{prof.id}}">
-                        <img src="{{prof.profile_pic.url}}" alt="..."
-                          style="transform: scale(1.5); width: 32px; height: 32px; position: relative;  left: 0;">
-                      </a>
-                    </div>
-                    <div class="profile ml-3 ">
-                      <a href="/profile/{{prof.id}}" class="profile_tag suggestion-text">{{prof.user.username}}</a>
-                    </div>
-                  </div>
-                </div> {% endif %} {% endfor %}
-              </div>
-            </div>
-            <!-- FOOTER  -->
-            <footer class="mastfoot mt-5 ml-5">
-              <div class="inner">
-                <ul class="footer-flex">
-                  <li class="text-muted footer-text">About</li>
-                  <li class="text-muted footer-text">Blog</li>
-                  <li class="text-muted footer-text">Jobs</li>
-                  <li class="text-muted footer-text">Help</li>
-                  <li class="text-muted footer-text">API</li>
-                  <li class="text-muted footer-text">Privacy</li>
-                  <li class="text-muted footer-text">Terms</li>
-                  <li class="text-muted footer-text">TopAccounts</li>
-                  <li class="text-muted footer-text">Hashtags</li>
-                  <li class="text-muted footer-text">Locations</li>
-                </ul>
-                <p class="text-center text-muted mb-5 copy">&copy;2021 Instragam from Joy</p>
-              </div>
-            </footer>
-          </div>
-        
       </div>
-      <!-- END SIDEBAR  -->
+      <!-- END OF POSTS -->
+      <!-- SIDEBAR  -->
+      <div class="row">
+        <div class="col-4">
+          <div class="d-flex flex-row align-items-center">
+          </div>
+          <div class="mt-4 ml-5">
+            <div class="d-flex flex-row justify-content-between">
+              <small class="text-muted font-weight-normal">Suggestions For You</small>
+            </div> {% for prof in suggestions %} {% if prof == loggedIn%} {% else %} <div>
+              <div class="d-flex flex-row justify-content-between align-items-center mt-3 mb-3">
+                <div class="d-flex flex-row align-items-center">
+                  <div
+                    class="rounded-circle overflow-hidden d-flex justify-content-center align-items-center border sugest-profile-photo">
+                    <a href="/profile/{{prof.id}}">
+                      <img src="{{prof.profile_pic.url}}" alt="..."
+                        style="transform: scale(1.5); width: 32px; height: 32px; position: relative;  left: 0;">
+                    </a>
+                  </div>
+                  <div class="profile ml-3 ">
+                    <a href="/profile/{{prof.id}}" class="profile_tag suggestion-text">{{prof.user.username}}</a>
+                  </div>
+                </div>
+              </div> {% endif %} {% endfor %}
+            </div>
+          </div>
+          <!-- FOOTER  -->
+          <footer class="mastfoot mt-5 ml-5">
+            <div class="inner">
+              <ul class="footer-flex">
+                <li class="text-muted footer-text">About</li>
+                <li class="text-muted footer-text">Blog</li>
+                <li class="text-muted footer-text">Jobs</li>
+                <li class="text-muted footer-text">Help</li>
+                <li class="text-muted footer-text">API</li>
+                <li class="text-muted footer-text">Privacy</li>
+                <li class="text-muted footer-text">Terms</li>
+                <li class="text-muted footer-text">TopAccounts</li>
+                <li class="text-muted footer-text">Hashtags</li>
+                <li class="text-muted footer-text">Locations</li>
+              </ul>
+              <p class="text-center text-muted mb-5 copy">&copy;2021 Instragam from Joy</p>
+            </div>
+          </footer>
+        </div>
+      </div>
     </div>
+    <!-- END SIDEBAR  -->
   </div>
+</div>
 </div> {% endblock %}

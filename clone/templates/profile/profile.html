@@ -30,11 +30,11 @@
               {% else%} {% if follow_form %} <form action="/profile/{{profile.id}}" method="post"
                 style="margin-top: 2rem;"> {%csrf_token%} {% bootstrap_form follow_form%} <input type="submit"
                   class=" btn btn-primary" name="follow" value="Follow"
-                  style="background-color: #003569 !important; padding: 6px 9px;">
+                  style="background-color: #3897f0!important; padding: 6px 9px;">
               </form> {% endif %} {% if unfollow_form %} <form action="/profile/{{profile.id}}" method="post"
                 style="margin-top: 2rem;"> {%csrf_token%} {% bootstrap_form unfollow_form%} <input type="submit"
                   class=" btn btn-info" name="unfollow" value="Unfollow"
-                  style="color: #003569 !important; padding: 6px 9px;">
+                  style="color:#3897f0!important; padding: 6px 9px;">
               </form> {% endif %} {% endif %}
             </div>
           </div>
@@ -54,8 +54,6 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <a class="D-block mx-auto" href="">Change Password</a>
-        <hr>
         <a class="D-block mx-auto" href="{% url 'logout' %}">Log Out</a>
         <hr>
         <a class="D-block mx-auto" href="" data-dismiss="modal">Close</a>
