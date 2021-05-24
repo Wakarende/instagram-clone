@@ -13,6 +13,7 @@ urlpatterns=[
   path('profile/edit', views.profile_edit,name = 'profile_edit'),
   re_path('search/', views.search, name='search'),
   path('email/', views.email, name='email'),
+  re_path('image/(?P<image_id>\d+)',views.one_image,name = 'single_image')
 ]
 
 

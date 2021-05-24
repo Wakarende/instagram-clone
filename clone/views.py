@@ -242,9 +242,9 @@ def profile_edit(request):
 @login_required(login_url="/accounts/login/")
 def search(request):
     if "search_user" in request.GET and request.GET["search_user"]:
-        search_term = request.GET.get("search_user")
-        searched_user = Profile.search_user(search_term)
-        message = f"{search_term}"
+        search = request.GET.get("search_user")
+        searched_user = Profile.search_user(search)
+        message = f"{search}"
 
         return render(
             request,
@@ -281,3 +281,11 @@ def like_image(request, image_id):
         image.likes.add(profile)
         liked = True
     return HttpResponseRedirect(reverse("home"))
+
+def one_image(request, image_id):
+    try:
+        image=Image.objects.get(pk=image_id)
+    except ImageDoesNotExist:
+        raise Http404()
+
+    return render(request, 'single-post.html',{"image":image})
