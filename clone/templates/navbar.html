@@ -1,5 +1,4 @@
-{% load static %}
-<div class="navigation">
+{% load static %} <div class="navigation">
   <div class="navbar fixed-top bg-white">
     <nav class="container">
       <span class="navbar-brand mb-0 h1">
@@ -7,7 +6,7 @@
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"
             alt="logo" width="103" class="logo"></a>
       </span>
-      <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="{% url 'search' %}">
+      <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="{% url 'search'%}">
         <input name="search_user" autocomplete="off" id="searching" class="form-control d-none d-md-block"
           placeholder="Search">
         <i class="spinner "></i>
@@ -34,7 +33,7 @@
         </div>
         <div class="modal-body text-left ">
           <ul class="modal-text">
-            <li ><a href="/profile/{{request.user.id}}" class="text-modal">Profile</a></li>
+            <li><a href="/profile/{{request.user.id}}" class="text-modal">Profile</a></li>
             <li><a href="/upload/image" class="text-modal">Upload Image</a></li>
             <li><a href="/logout" class="text-modal">Logout</a></li>
           </ul>

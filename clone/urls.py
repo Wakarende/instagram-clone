@@ -11,7 +11,8 @@ urlpatterns=[
   path('like/(?P<image_id>\d+)', views.like_image, name = 'like_image'),
   path('comment/(?P<image_id>\d+)', views.comment,name = "comment"),
   path('profile/edit', views.profile_edit,name = 'profile_edit'),
-  path('search/', views.search, name='search'),
+  re_path('search/', views.search, name='search'),
+  path('email/', views.email, name='email'),
 ]
 
 
