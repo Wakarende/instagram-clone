@@ -39,38 +39,37 @@ body {
   color: black;
 }
 
-/* .profile_tag {
-  color: black;
-  margin-left: 2rem;
-} */
-
-
-/* .card-body {
-  background-color: white;
-} */
-
- .modal-text {
+.d-flex{
+  align-items: center;
+  justify-content: center; 
+}
+.modal-text {
   list-style: none;
 
-} 
+}
 
 .text-modal {
   color: black;
   text-decoration: none;
 }
-.card-dimensions{
+
+.card-dimensions {
   height: auto;
   margin-bottom: 40px;
+  
+
 }
-.profile_tag{
+
+.profile_tag {
   color: black;
   font-weight: bold;
 }
-.profile_tag:hover{
+
+.profile_tag:hover {
   color: black;
 }
 
-.fa-heart{
+.fa-heart {
   font-size: 35px;
   font-weight: lighter;
 }
@@ -119,7 +118,7 @@ body {
 /* END OF IMAGE UPLOAD  */
 
 /* SEARCH  */
-.search-flex{
+.search-flex {
   display: flex;
   align-items: center;
   justify-content: center;

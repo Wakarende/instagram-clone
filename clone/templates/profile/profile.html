@@ -23,7 +23,7 @@
                 <span class="mr-5"> <strong>{{profile.following}}</strong> following</span>
               </div>
               <h5>{{ user.profile.name }}</h5>
-              <p class="text-secondary">{{ user.profile.bio }}</p> {%if profile.user.username == request.user.username%}
+              <p class="text-secondary">{{ profile.bio }}</p> {%if profile.user.username == request.user.username%}
               {% else%} {% if follow_form %} <form action="/profile/{{profile.id}}" method="post"
                 style="margin-top: 2rem;"> {%csrf_token%} {% bootstrap_form follow_form%} <input type="submit"
                   class=" btn btn-primary" name="follow" value="Follow"
