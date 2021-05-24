@@ -88,3 +88,17 @@ body {
   ;
 
 }
+
+/* MEDIA QUERIES  */
+@media (max-width: 550px) {
+
+  #register {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  footer .container-fluid {
+    padding: 0 2rem;
+    justify-content: center;
+  }
+}

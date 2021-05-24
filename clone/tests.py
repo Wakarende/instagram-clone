@@ -8,21 +8,18 @@ from django.contrib.auth.models import User
 class TestProfile(TestCase):
     def setUp(self):
         self.user = User(username="joy")
-        self.profile = Profile(bio="Test profile", user=self.user)
+        self.profile0 = Profile(bio="Test profile", user=self.user)
         self.user.save()
 
         self.profile_test = Profile(
-            id=1, user=self.user, profile_pic="default.jpg", bio="Test profile"
+            user=self.user, profile_pic="default.jpg", bio="Test profile"
         )
+
 
     def test_instance(self):
         self.assertTrue(isinstance(self.profile_test, Profile))
 
-    # def test_save_profile(self):
-    #   self.profile_test.save_profile()
-    #   new_profile = Profile.objects.all()
-    #   self.assertTrue(len(after)>0)
-
+       
     def test_search_user(self):
         user = Profile.search_user(self.user)
         self.assertEqual(len(user), 1)
@@ -60,10 +57,9 @@ class TestComment(TestCase):
         comments1 = Comment.objects.all()
         self.assertEqual(len(comments1), 0)
 
-    # def test_get_post_comments(self):
-    #   comments=Comment.get_post_comments(self.image)
-    #   self.assertEqual(comments[0].content, 'Test Comment')
-    #   self.assertTrue(len(comments)>0)
+    def test_get_post_comments(self):
+      comments=Comment.get_post_comments(self.image)
+      self.assertTrue(len(comments)>0)
 
 
 class TestIMage(TestCase):
@@ -97,3 +93,12 @@ class TestIMage(TestCase):
         self.image.delete_image()
         images1 = Image.objects.all()
         self.assertEqual(len(images1), 0)
+
+    def test_update_caption(self):
+        image=Image.objects.all()
+        self.image.update_caption( "new_caption")
+        self.assertEqual(self.image.caption, 'new_caption')
+
+    def test_get_profile_images(self):
+        image=Image.objects.all()
+        self.assertTrue(len(image)>0)
