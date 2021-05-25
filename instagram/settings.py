@@ -13,7 +13,14 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import cloudinary
-from decouple import config
+from decouple import config,Csv
+import django_heroku
+import dj_database_url
+
+
+
+
+MODE = config("MODE", default="dev")
 
 # Email configurations remember to install python-decouple
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
@@ -31,12 +38,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-gy33$xy$1%d3dgjnb7xg@*)+w=*3o38z@b71k+z^osu@gz%bz^"
+SECRET_KEY =config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =config('DEBUG')
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -61,6 +67,7 @@ cloudinary.config(
 )
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -94,15 +101,32 @@ WSGI_APPLICATION = "instagram.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "clone",
-        "USER": "joykirii",
-        "PASSWORD": "kirii",
-    }
-}
+if config('MODE')=="dev":
 
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": config('DB_NAME'),
+            "USER": config('DB_USER'),
+            "PASSWORD": config('DB_PASSWORD'),
+            "HOST": config('DB_HOST'),
+            "PORT":5432,
+        }
+    }
+
+else:
+
+    DATABASES = {
+       'default': dj_database_url.config(
+           default=config('DATABASE_URL')
+        )
+    }
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -136,14 +160,19 @@ USE_L10N = True
 
 USE_TZ = True
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR, "static"
+    os.path.join(BASE_DIR, "static"),
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -152,3 +181,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
